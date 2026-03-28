@@ -3,6 +3,7 @@
 namespace App\Actions\Conversation;
 
 use App\Contracts\Repositories\ConversationRepositoryInterface;
+use App\Exceptions\ApiResourceNotFoundException;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
@@ -13,12 +14,12 @@ class GetConversationMessagesAction
     ) {
     }
 
-    public function __invoke(User $user, int $conversationId): ?Collection
+    public function __invoke(User $user, int $conversationId): Collection
     {
         $conversation = $this->conversationRepository->findForUser($user, $conversationId);
 
         if (! $conversation) {
-            return null;
+            throw new ApiResourceNotFoundException('Conversation');
         }
 
         return $this->conversationRepository->getMessages($conversation);

@@ -47,8 +47,6 @@ class MentorController extends Controller
         $user = ($this->resolveCurrentUser)($request->user());
         $mentorModel = ($this->getMentorDetails)($mentor, $user);
 
-        abort_if(! $mentorModel, 404);
-
         return new MentorResource($mentorModel);
     }
 

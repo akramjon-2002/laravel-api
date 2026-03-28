@@ -38,8 +38,6 @@ class ConversationController extends Controller
         $user = ($this->resolveCurrentUser)($request->user());
         $messages = ($this->getConversationMessages)($user, $conversation);
 
-        abort_if($messages === null, 404);
-
         return MessageResource::collection($messages);
     }
 
@@ -47,8 +45,6 @@ class ConversationController extends Controller
     {
         $user = ($this->resolveCurrentUser)($request->user());
         $message = ($this->sendMessage)($user, $conversation, $request->validated('body'));
-
-        abort_if(! $message, 404);
 
         return new MessageResource($message);
     }

@@ -45,3 +45,17 @@ it('returns validation errors for invalid message payload', function (): void {
         ->assertUnprocessable()
         ->assertJsonValidationErrors(['body']);
 });
+
+it('returns a JSON not found error for missing conversation messages', function (): void {
+    $this->getJson('/api/conversations/999999/messages')
+        ->assertNotFound()
+        ->assertJsonPath('message', 'Conversation not found.');
+});
+
+it('returns a JSON not found error when sending to a missing conversation', function (): void {
+    $this->postJson('/api/conversations/999999/messages', [
+        'body' => 'Message to a missing conversation.',
+    ])
+        ->assertNotFound()
+        ->assertJsonPath('message', 'Conversation not found.');
+});

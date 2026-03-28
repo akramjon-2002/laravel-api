@@ -35,8 +35,6 @@ class TaskController extends Controller
         $user = ($this->resolveCurrentUser)($request->user());
         $taskModel = ($this->getTaskDetails)($user, $task);
 
-        abort_if(! $taskModel, 404);
-
         return new TaskResource($taskModel);
     }
 
@@ -44,8 +42,6 @@ class TaskController extends Controller
     {
         $user = ($this->resolveCurrentUser)($request->user());
         $taskModel = ($this->getTaskDetails)($user, $task);
-
-        abort_if(! $taskModel, 404);
 
         return TaskStepResource::collection(($this->getTaskSteps)($user, $task));
     }

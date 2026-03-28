@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\ApiResourceNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -22,6 +23,16 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->shouldRenderJsonWhen(function (Request $request): bool {
             return $request->is('api/*') || $request->expectsJson();
+        });
+
+        $exceptions->render(function (ApiResourceNotFoundException $exception, Request $request): ?JsonResponse {
+            if (! $request->is('api/*')) {
+                return null;
+            }
+
+            return response()->json([
+                'message' => $exception->getMessage(),
+            ], 404);
         });
 
         $exceptions->render(function (ModelNotFoundException $exception, Request $request): ?JsonResponse {

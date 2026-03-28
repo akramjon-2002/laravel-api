@@ -48,3 +48,15 @@ it('returns validation errors for invalid task filters', function (): void {
         ->assertUnprocessable()
         ->assertJsonValidationErrors(['sort', 'per_page']);
 });
+
+it('returns a JSON not found error for a missing task', function (): void {
+    $this->getJson('/api/tasks/999999')
+        ->assertNotFound()
+        ->assertJsonPath('message', 'Task not found.');
+});
+
+it('returns a JSON not found error for missing task steps', function (): void {
+    $this->getJson('/api/tasks/999999/steps')
+        ->assertNotFound()
+        ->assertJsonPath('message', 'Task not found.');
+});
