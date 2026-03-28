@@ -7,12 +7,14 @@ use App\Contracts\Repositories\MentorRepositoryInterface;
 use App\Contracts\Repositories\OverviewRepositoryInterface;
 use App\Contracts\Repositories\SettingsRepositoryInterface;
 use App\Contracts\Repositories\TaskRepositoryInterface;
+use App\Contracts\Repositories\UserRepositoryInterface;
 use App\Contracts\Services\AvatarServiceInterface;
 use App\Repositories\EloquentConversationRepository;
 use App\Repositories\EloquentMentorRepository;
 use App\Repositories\EloquentOverviewRepository;
 use App\Repositories\EloquentSettingsRepository;
 use App\Repositories\EloquentTaskRepository;
+use App\Repositories\EloquentUserRepository;
 use App\Services\DiceBearAvatarService;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(OverviewRepositoryInterface::class, EloquentOverviewRepository::class);
         $this->app->bind(SettingsRepositoryInterface::class, EloquentSettingsRepository::class);
         $this->app->bind(TaskRepositoryInterface::class, EloquentTaskRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, EloquentUserRepository::class);
 
         $this->app->singleton(AvatarServiceInterface::class, DiceBearAvatarService::class);
     }

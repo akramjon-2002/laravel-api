@@ -13,12 +13,12 @@ class GetConversationMessagesAction
     ) {
     }
 
-    public function __invoke(User $user, int $conversationId): Collection
+    public function __invoke(User $user, int $conversationId): ?Collection
     {
         $conversation = $this->conversationRepository->findForUser($user, $conversationId);
 
         if (! $conversation) {
-            return collect();
+            return null;
         }
 
         return $this->conversationRepository->getMessages($conversation);

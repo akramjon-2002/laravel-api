@@ -84,6 +84,8 @@ return [
 
     'faker_locale' => env('APP_FAKER_LOCALE', 'en_US'),
 
+    'demo_user_email' => env('DEMO_USER_EMAIL', 'dennis@example.com'),
+
     /*
     |--------------------------------------------------------------------------
     | Encryption Key

@@ -20,12 +20,12 @@
 
 ## 4. API Delivery
 
-- [ ] 4.1 Реализовать endpoint `GET /api/overview`
-- [ ] 4.2 Реализовать endpoints для tasks list, task details и task steps
-- [ ] 4.3 Реализовать endpoints для mentors list, recent mentors, mentor details, follow и unfollow
-- [ ] 4.4 Реализовать endpoints для conversations list, conversation messages и send message
-- [ ] 4.5 Реализовать endpoints для get/update settings
-- [ ] 4.6 Добавить Form Requests и API Resources для стабильных контрактов ответа
+- [x] 4.1 Реализовать endpoint `GET /api/overview`
+- [x] 4.2 Реализовать endpoints для tasks list, task details и task steps
+- [x] 4.3 Реализовать endpoints для mentors list, recent mentors, mentor details, follow и unfollow
+- [x] 4.4 Реализовать endpoints для conversations list, conversation messages и send message
+- [x] 4.5 Реализовать endpoints для get/update settings
+- [x] 4.6 Добавить Form Requests и API Resources для стабильных контрактов ответа
 
 ## 5. Testing and Quality
 
