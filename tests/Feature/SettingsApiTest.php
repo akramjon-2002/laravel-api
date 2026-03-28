@@ -13,11 +13,13 @@ it('returns current settings', function (): void {
 
 it('updates settings', function (): void {
     $this->putJson('/api/settings', [
+        'language' => 'ru',
         'timezone' => 'Asia/Tashkent',
         'time_format' => '12h',
         'notifications_enabled' => false,
     ])
         ->assertOk()
+        ->assertJsonPath('data.language', 'ru')
         ->assertJsonPath('data.timezone', 'Asia/Tashkent')
         ->assertJsonPath('data.time_format', '12h')
         ->assertJsonPath('data.notifications_enabled', false);
@@ -28,9 +30,10 @@ it('returns validation errors for invalid settings payload', function (): void {
         'timezone' => 'bad-timezone',
         'time_format' => 'bad-format',
         'notifications_enabled' => 'not-a-boolean',
+        'language' => 'de',
     ])
         ->assertUnprocessable()
-        ->assertJsonValidationErrors(['timezone', 'time_format', 'notifications_enabled']);
+        ->assertJsonValidationErrors(['language', 'timezone', 'time_format', 'notifications_enabled']);
 });
 
 it('returns a bad request error for malformed settings json', function (): void {

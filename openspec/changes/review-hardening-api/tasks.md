@@ -12,10 +12,10 @@
 
 ## 3. API Contract Cleanup
 
-- [ ] 3.1 Убрать лишние публичные поля из user summary payloads
-- [ ] 3.2 Усилить validation для settings и related requests
+- [x] 3.1 Убрать лишние публичные поля из user summary payloads
+- [x] 3.2 Усилить validation для settings и related requests
 - [ ] 3.3 Сохранить compact JSON handling для `400/404/405/422`
-- [ ] 3.4 Удалить test scaffolding / helper мусор
+- [x] 3.4 Удалить test scaffolding / helper мусор
 
 ## 4. Task and Conversation Flow Improvements
 
@@ -40,6 +40,6 @@
 
 - [x] 7.1 Добавить feature tests для auth login/logout/me и protected routes
 - [ ] 7.2 Перевести критичные feature tests с seed-зависимости на локальные factories/fixtures
-- [ ] 7.3 Добавить regression tests под замечания review
+- [x] 7.3 Добавить regression tests под замечания review
 - [x] 7.4 Прогнать полный test suite и ручную матрицу edge cases
 - [x] 7.5 Провалидировать новый OpenSpec change

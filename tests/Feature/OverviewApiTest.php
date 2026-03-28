@@ -9,7 +9,7 @@ it('returns the overview payload for the dashboard', function (): void {
         ->assertOk()
         ->assertJsonStructure([
             'data' => [
-                'user' => ['id', 'name', 'email', 'avatar_url'],
+                'user' => ['id', 'name', 'avatar_url'],
                 'summary_metrics' => ['running_tasks', 'completed_tasks', 'total_tasks', 'completion_rate'],
                 'activity' => ['labels', 'series'],
                 'upcoming_tasks' => [
@@ -20,5 +20,6 @@ it('returns the overview payload for the dashboard', function (): void {
                     '*' => ['id', 'name', 'role', 'is_followed'],
                 ],
             ],
-        ]);
+        ])
+        ->assertJsonMissingPath('data.user.email');
 });

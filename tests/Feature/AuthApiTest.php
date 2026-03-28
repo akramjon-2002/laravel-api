@@ -13,9 +13,10 @@ it('logs in and returns a sanctum token', function (): void {
             'data' => [
                 'token',
                 'token_type',
-                'user' => ['id', 'name', 'email', 'avatar_url'],
+                'user' => ['id', 'name', 'avatar_url'],
             ],
         ])
+        ->assertJsonMissingPath('data.user.email')
         ->assertJsonPath('data.token_type', 'Bearer');
 });
 
@@ -33,7 +34,8 @@ it('returns the authenticated user profile', function (): void {
 
     $this->getJson('/api/auth/me')
         ->assertOk()
-        ->assertJsonPath('data.email', 'dennis@example.com');
+        ->assertJsonPath('data.name', 'Dennis Nzioki')
+        ->assertJsonMissingPath('data.email');
 });
 
 it('logs out the current sanctum token', function (): void {

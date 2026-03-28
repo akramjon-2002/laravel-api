@@ -15,7 +15,9 @@ it('lists conversations and their last message summary', function (): void {
             ],
             'links',
             'meta',
-        ]);
+        ])
+        ->assertJsonMissingPath('data.0.counterparty.email')
+        ->assertJsonMissingPath('data.0.participants.0.email');
 });
 
 it('returns messages for a conversation', function (): void {
@@ -27,7 +29,8 @@ it('returns messages for a conversation', function (): void {
             'data' => [
                 '*' => ['id', 'body', 'sent_at', 'sender'],
             ],
-        ]);
+        ])
+        ->assertJsonMissingPath('data.0.sender.email');
 });
 
 it('sends a new message to a conversation', function (): void {
