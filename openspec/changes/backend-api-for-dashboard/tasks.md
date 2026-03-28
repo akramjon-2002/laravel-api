@@ -29,11 +29,11 @@
 
 ## 5. Testing and Quality
 
-- [ ] 5.1 Написать feature tests для overview, tasks, mentors, conversations и settings
-- [ ] 5.2 Написать feature tests для follow / unfollow и отправки сообщения
-- [ ] 5.3 Написать architecture tests на соблюдение repository, action и service layer
-- [ ] 5.4 Изолировать внешнюю avatar-интеграцию в тестах через mock / fake
-- [ ] 5.5 Проверить прохождение тестов, форматирование и финальную валидацию OpenSpec change
+- [x] 5.1 Написать feature tests для overview, tasks, mentors, conversations и settings
+- [x] 5.2 Написать feature tests для follow / unfollow и отправки сообщения
+- [x] 5.3 Написать architecture tests на соблюдение repository, action и service layer
+- [x] 5.4 Изолировать внешнюю avatar-интеграцию в тестах через mock / fake
+- [x] 5.5 Проверить прохождение тестов, форматирование и финальную валидацию OpenSpec change
 
 ## 6. Documentation
 
