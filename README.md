@@ -173,18 +173,4 @@ Default variables use seeded demo IDs:
 
 Use the `Auth -> Login` request first. It stores the returned Sanctum token into the active Postman environment automatically.
 
-## OpenSpec Workflow
 
-The implementation is tracked through OpenSpec in:
-
-- `openspec/changes/review-hardening-api/`
-
-Validation command:
-
-```bash
-openspec validate review-hardening-api
-```
-
-## Reviewer Notes
-
-This submission focuses on the main dashboard API flows and the required architectural patterns. Messaging is intentionally limited to inbox-oriented flows needed by the provided UI, while authentication uses Laravel Sanctum to protect the dashboard endpoints without expanding the project into a full auth product.
