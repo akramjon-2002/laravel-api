@@ -129,6 +129,26 @@ php artisan migrate:fresh --seed
 php artisan serve
 ```
 
+## Demo Commands
+
+Useful commands for a short reviewer demo:
+
+```bash
+php artisan migrate:fresh --seed
+php artisan route:list --path=api
+php artisan test
+```
+
+Quick endpoint checks:
+
+```bash
+curl http://127.0.0.1:8000/api/overview
+curl http://127.0.0.1:8000/api/tasks
+curl http://127.0.0.1:8000/api/mentors
+curl http://127.0.0.1:8000/api/conversations
+curl http://127.0.0.1:8000/api/settings
+```
+
 ## OpenSpec Workflow
 
 The implementation is tracked through OpenSpec in:
