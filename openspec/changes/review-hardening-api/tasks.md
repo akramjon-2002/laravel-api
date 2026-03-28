@@ -19,11 +19,11 @@
 
 ## 4. Task and Conversation Flow Improvements
 
-- [ ] 4.1 Устранить лишний запрос в task steps flow
-- [ ] 4.2 Перевести task status на enum и обновить связанные условия/валидацию
-- [ ] 4.3 Добавить индекс на `tasks.status`
-- [ ] 4.4 Убрать request attribute smuggling из conversations resource flow
-- [ ] 4.5 Привести conversation/message preparation к более чистому layering
+- [x] 4.1 Устранить лишний запрос в task steps flow
+- [x] 4.2 Перевести task status на enum и обновить связанные условия/валидацию
+- [x] 4.3 Добавить индекс на `tasks.status`
+- [x] 4.4 Убрать request attribute smuggling из conversations resource flow
+- [x] 4.5 Привести conversation/message preparation к более чистому layering
 
 ## 5. Mentor Domain Improvements
 

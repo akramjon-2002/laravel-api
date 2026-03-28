@@ -43,6 +43,6 @@ class TaskController extends Controller
         $user = ($this->resolveCurrentUser)($request->user());
         $taskModel = ($this->getTaskDetails)($user, $task);
 
-        return TaskStepResource::collection(($this->getTaskSteps)($user, $task));
+        return TaskStepResource::collection(($this->getTaskSteps)($taskModel));
     }
 }

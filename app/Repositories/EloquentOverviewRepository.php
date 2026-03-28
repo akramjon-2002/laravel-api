@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Contracts\Repositories\OverviewRepositoryInterface;
+use App\Enums\TaskStatus;
 use App\Models\Mentor;
 use App\Models\Task;
 use App\Models\User;
@@ -15,8 +16,8 @@ class EloquentOverviewRepository implements OverviewRepositoryInterface
         $taskQuery = $user->tasks();
 
         $totalTasks = (clone $taskQuery)->count();
-        $runningTasks = (clone $taskQuery)->where('status', 'in_progress')->count();
-        $completedTasks = (clone $taskQuery)->where('status', 'completed')->count();
+        $runningTasks = (clone $taskQuery)->where('status', TaskStatus::InProgress->value)->count();
+        $completedTasks = (clone $taskQuery)->where('status', TaskStatus::Completed->value)->count();
 
         return [
             'running_tasks' => $runningTasks,
@@ -33,9 +34,9 @@ class EloquentOverviewRepository implements OverviewRepositoryInterface
         return [
             'labels' => ['New', 'In Progress', 'Completed'],
             'series' => [
-                $user->tasks()->where('status', 'new')->count(),
-                $user->tasks()->where('status', 'in_progress')->count(),
-                $user->tasks()->where('status', 'completed')->count(),
+                $user->tasks()->where('status', TaskStatus::New->value)->count(),
+                $user->tasks()->where('status', TaskStatus::InProgress->value)->count(),
+                $user->tasks()->where('status', TaskStatus::Completed->value)->count(),
             ],
         ];
     }
@@ -44,7 +45,7 @@ class EloquentOverviewRepository implements OverviewRepositoryInterface
     {
         return $user->tasks()
             ->with(['category', 'mentor', 'members'])
-            ->whereIn('status', ['new', 'in_progress'])
+            ->whereIn('status', TaskStatus::activeValues())
             ->orderBy('deadline_at')
             ->limit($limit)
             ->get();
@@ -54,7 +55,7 @@ class EloquentOverviewRepository implements OverviewRepositoryInterface
     {
         return $user->tasks()
             ->with(['category', 'mentor', 'members', 'steps'])
-            ->whereIn('status', ['new', 'in_progress'])
+            ->whereIn('status', TaskStatus::activeValues())
             ->orderBy('deadline_at')
             ->first();
     }

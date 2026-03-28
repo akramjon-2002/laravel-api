@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\TaskStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -9,11 +10,15 @@ class TaskResource extends JsonResource
 {
     public function toArray(Request $request): array
     {
+        $status = $this->status instanceof TaskStatus
+            ? $this->status->value
+            : $this->status;
+
         return [
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
-            'status' => $this->status,
+            'status' => $status,
             'progress' => $this->progress,
             'deadline_at' => optional($this->deadline_at)?->toIso8601String(),
             'started_at' => optional($this->started_at)?->toIso8601String(),

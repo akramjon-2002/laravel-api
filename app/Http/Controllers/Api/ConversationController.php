@@ -27,7 +27,6 @@ class ConversationController extends Controller
     public function index(ListConversationsRequest $request): AnonymousResourceCollection
     {
         $user = ($this->resolveCurrentUser)($request->user());
-        $request->attributes->set('current_user_id', $user->id);
         $conversations = ($this->listConversations)($user, $request->validated());
 
         return ConversationResource::collection($conversations);

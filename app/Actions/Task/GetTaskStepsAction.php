@@ -2,25 +2,15 @@
 
 namespace App\Actions\Task;
 
-use App\Contracts\Repositories\TaskRepositoryInterface;
-use App\Models\User;
+use App\Models\Task;
 use Illuminate\Support\Collection;
 
 class GetTaskStepsAction
 {
-    public function __construct(
-        private readonly TaskRepositoryInterface $taskRepository,
-    ) {
-    }
-
-    public function __invoke(User $user, int $taskId): Collection
+    public function __invoke(Task $task): Collection
     {
-        $task = $this->taskRepository->findForUser($user, $taskId);
-
-        if (! $task) {
-            return collect();
-        }
-
-        return $this->taskRepository->getSteps($task);
+        return $task->relationLoaded('steps')
+            ? $task->steps
+            : $task->steps()->orderBy('sort_order')->get();
     }
 }

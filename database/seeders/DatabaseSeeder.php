@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Enums\TaskStatus;
 use App\Models\Category;
 use App\Models\Conversation;
 use App\Models\Mentor;
@@ -193,7 +194,7 @@ class DatabaseSeeder extends Seeder
                     'description' => 'Build a mobile-first product workflow from concept to prototype.',
                     'category_slug' => 'ui-ux-design',
                     'mentor_name' => 'Sarah Johnson',
-                    'status' => 'in_progress',
+                    'status' => TaskStatus::InProgress->value,
                     'progress' => 90,
                     'deadline_at' => now()->addHour(),
                     'started_at' => now()->subDays(4),
@@ -209,7 +210,7 @@ class DatabaseSeeder extends Seeder
                     'description' => 'Design a polished application flow for a modern mobile experience.',
                     'category_slug' => 'ui-ux-design',
                     'mentor_name' => 'Sarah Johnson',
-                    'status' => 'in_progress',
+                    'status' => TaskStatus::InProgress->value,
                     'progress' => 75,
                     'deadline_at' => now()->addDays(3),
                     'started_at' => now()->subDays(3),
@@ -225,7 +226,7 @@ class DatabaseSeeder extends Seeder
                     'description' => 'Implement a responsive frontend for a dashboard experience.',
                     'category_slug' => 'frontend-development',
                     'mentor_name' => 'David Kim',
-                    'status' => 'new',
+                    'status' => TaskStatus::New->value,
                     'progress' => 30,
                     'deadline_at' => now()->addHours(5),
                     'started_at' => now()->subDay(),
@@ -241,7 +242,7 @@ class DatabaseSeeder extends Seeder
                     'description' => 'Design repository, action and service boundaries for the backend API.',
                     'category_slug' => 'backend-development',
                     'mentor_name' => 'Robert Taylor',
-                    'status' => 'new',
+                    'status' => TaskStatus::New->value,
                     'progress' => 20,
                     'deadline_at' => now()->addDays(2),
                     'started_at' => now()->subHours(8),
@@ -257,7 +258,7 @@ class DatabaseSeeder extends Seeder
                     'description' => 'Prepare backend responses for overview, tasks, mentors, messages and settings.',
                     'category_slug' => 'backend-development',
                     'mentor_name' => 'Michael Chen',
-                    'status' => 'in_progress',
+                    'status' => TaskStatus::InProgress->value,
                     'progress' => 45,
                     'deadline_at' => now()->addDays(4),
                     'started_at' => now()->subDays(2),
