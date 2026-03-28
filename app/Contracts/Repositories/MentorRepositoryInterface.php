@@ -9,11 +9,15 @@ use Illuminate\Support\Collection;
 
 interface MentorRepositoryInterface
 {
-    public function paginate(array $filters = [], ?User $user = null): LengthAwarePaginator;
+    public function paginate(array $filters = []): LengthAwarePaginator;
 
-    public function getRecent(?User $user = null, int $limit = 5): Collection;
+    public function getRecent(int $limit = 5): Collection;
 
-    public function find(int $mentorId, ?User $user = null): ?Mentor;
+    public function find(int $mentorId): ?Mentor;
+
+    public function getFollowedIds(User $user): Collection;
+
+    public function isFollowedBy(User $user, Mentor $mentor): bool;
 
     public function follow(User $user, Mentor $mentor): void;
 

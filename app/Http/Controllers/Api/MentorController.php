@@ -54,17 +54,13 @@ class MentorController extends Controller
     {
         $user = ($this->resolveCurrentUser)($request->user());
 
-        ($this->followMentor)($user, $mentor);
-
-        return new MentorResource(($this->getMentorDetails)($mentor->id, $user));
+        return new MentorResource(($this->followMentor)($user, $mentor));
     }
 
     public function unfollow(Request $request, Mentor $mentor): MentorResource
     {
         $user = ($this->resolveCurrentUser)($request->user());
 
-        ($this->unfollowMentor)($user, $mentor);
-
-        return new MentorResource(($this->getMentorDetails)($mentor->id, $user));
+        return new MentorResource(($this->unfollowMentor)($user, $mentor));
     }
 }

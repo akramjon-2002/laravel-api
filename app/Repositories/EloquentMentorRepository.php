@@ -11,10 +11,9 @@ use Illuminate\Support\Collection;
 
 class EloquentMentorRepository implements MentorRepositoryInterface
 {
-    public function paginate(array $filters = [], ?User $user = null): LengthAwarePaginator
+    public function paginate(array $filters = []): LengthAwarePaginator
     {
-        $query = Mentor::query()
-            ->with('category')
+        $query = $this->baseQuery()
             ->when(
                 $filters['search'] ?? null,
                 function (Builder $builder, string $search): void {
@@ -32,53 +31,38 @@ class EloquentMentorRepository implements MentorRepositoryInterface
         $sort = $filters['sort'] ?? 'rating';
 
         $query = match ($sort) {
-            'reviews' => $query->orderByDesc('reviews_count'),
-            'tasks' => $query->orderByDesc('tasks_count'),
+            'reviews' => $query->orderByDesc('reviews_total'),
+            'tasks' => $query->orderByDesc('tasks_total'),
             'latest' => $query->latest(),
-            default => $query->orderByDesc('rating'),
+            default => $query->orderByDesc('average_rating'),
         };
 
-        $paginator = $query->paginate((int) ($filters['per_page'] ?? 10));
-
-        $followedIds = $user?->followedMentors()->pluck('mentors.id') ?? collect();
-
-        $paginator->getCollection()->each(function (Mentor $mentor) use ($followedIds): void {
-            $mentor->setAttribute('is_followed', $followedIds->contains($mentor->id));
-        });
-
-        return $paginator;
+        return $query->paginate((int) ($filters['per_page'] ?? 10));
     }
 
-    public function getRecent(?User $user = null, int $limit = 5): Collection
+    public function getRecent(int $limit = 5): Collection
     {
-        $followedIds = $user?->followedMentors()->pluck('mentors.id') ?? collect();
-
-        return Mentor::query()
-            ->with('category')
+        return $this->baseQuery()
             ->latest()
             ->limit($limit)
-            ->get()
-            ->each(function (Mentor $mentor) use ($followedIds): void {
-                $mentor->setAttribute('is_followed', $followedIds->contains($mentor->id));
-            });
+            ->get();
     }
 
-    public function find(int $mentorId, ?User $user = null): ?Mentor
+    public function find(int $mentorId): ?Mentor
     {
-        $mentor = Mentor::query()
-            ->with(['category', 'reviews'])
+        return $this->baseQuery()
+            ->with('reviews')
             ->find($mentorId);
+    }
 
-        if (! $mentor) {
-            return null;
-        }
+    public function getFollowedIds(User $user): Collection
+    {
+        return $user->followedMentors()->pluck('mentors.id');
+    }
 
-        $mentor->setAttribute(
-            'is_followed',
-            $user?->followedMentors()->whereKey($mentorId)->exists() ?? false
-        );
-
-        return $mentor;
+    public function isFollowedBy(User $user, Mentor $mentor): bool
+    {
+        return $user->followedMentors()->whereKey($mentor->id)->exists();
     }
 
     public function follow(User $user, Mentor $mentor): void
@@ -89,5 +73,16 @@ class EloquentMentorRepository implements MentorRepositoryInterface
     public function unfollow(User $user, Mentor $mentor): void
     {
         $user->followedMentors()->detach($mentor->id);
+    }
+
+    private function baseQuery(): Builder
+    {
+        return Mentor::query()
+            ->with('category')
+            ->withCount([
+                'tasks as tasks_total',
+                'reviews as reviews_total',
+            ])
+            ->withAvg('reviews as average_rating', 'rating');
     }
 }

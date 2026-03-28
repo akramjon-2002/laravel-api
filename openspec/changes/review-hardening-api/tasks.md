@@ -14,7 +14,7 @@
 
 - [x] 3.1 Убрать лишние публичные поля из user summary payloads
 - [x] 3.2 Усилить validation для settings и related requests
-- [ ] 3.3 Сохранить compact JSON handling для `400/404/405/422`
+- [x] 3.3 Сохранить compact JSON handling для `400/404/405/422`
 - [x] 3.4 Удалить test scaffolding / helper мусор
 
 ## 4. Task and Conversation Flow Improvements
@@ -27,19 +27,19 @@
 
 ## 5. Mentor Domain Improvements
 
-- [ ] 5.1 Пересмотреть стратегию `tasks_count`, `reviews_count`, `rating`
-- [ ] 5.2 Реализовать более честное вычисление или централизованное обновление aggregate fields
-- [ ] 5.3 Проверить sort/list/detail behavior после переработки metrics
+- [x] 5.1 Пересмотреть стратегию `tasks_count`, `reviews_count`, `rating`
+- [x] 5.2 Реализовать более честное вычисление или централизованное обновление aggregate fields
+- [x] 5.3 Проверить sort/list/detail behavior после переработки metrics
 
 ## 6. Action / Repository Rebalancing
 
-- [ ] 6.1 Перенести ключевую use-case orchestration logic из repositories в actions там, где это оправдано
-- [ ] 6.2 Сохранить repositories сфокусированными на persistence/query responsibilities
+- [x] 6.1 Перенести ключевую use-case orchestration logic из repositories в actions там, где это оправдано
+- [x] 6.2 Сохранить repositories сфокусированными на persistence/query responsibilities
 
 ## 7. Testing and Verification
 
 - [x] 7.1 Добавить feature tests для auth login/logout/me и protected routes
-- [ ] 7.2 Перевести критичные feature tests с seed-зависимости на локальные factories/fixtures
+- [x] 7.2 Перевести критичные feature tests с seed-зависимости на локальные factories/fixtures
 - [x] 7.3 Добавить regression tests под замечания review
 - [x] 7.4 Прогнать полный test suite и ручную матрицу edge cases
 - [x] 7.5 Провалидировать новый OpenSpec change

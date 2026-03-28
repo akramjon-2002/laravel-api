@@ -66,12 +66,23 @@ class EloquentOverviewRepository implements OverviewRepositoryInterface
 
         return Mentor::query()
             ->with('category')
+            ->withCount([
+                'tasks as tasks_total',
+                'reviews as reviews_total',
+            ])
+            ->withAvg('reviews as average_rating', 'rating')
             ->orderByDesc('is_featured')
-            ->orderByDesc('rating')
-            ->orderByDesc('reviews_count')
+            ->orderByDesc('average_rating')
+            ->orderByDesc('reviews_total')
             ->limit($limit)
             ->get()
             ->each(function (Mentor $mentor) use ($followedMentorIds): void {
+                $mentor->setAttribute('tasks_count', (int) ($mentor->getAttribute('tasks_total') ?? 0));
+                $mentor->setAttribute('reviews_count', (int) ($mentor->getAttribute('reviews_total') ?? 0));
+                $mentor->setAttribute(
+                    'rating',
+                    round((float) ($mentor->getAttribute('average_rating') ?? $mentor->rating ?? 0), 2)
+                );
                 $mentor->setAttribute('is_followed', $followedMentorIds->contains($mentor->id));
             });
     }
