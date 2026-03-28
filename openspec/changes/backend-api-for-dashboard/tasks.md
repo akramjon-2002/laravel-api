@@ -13,10 +13,10 @@
 
 ## 3. Architecture Foundation
 
-- [ ] 3.1 Создать контракты и реализации репозиториев для overview, tasks, mentors, conversations и settings
-- [ ] 3.2 Создать action-классы для основных use case по каждому экрану
-- [ ] 3.3 Создать service layer для внешней интеграции аватаров через DiceBear
-- [ ] 3.4 Подключить зависимости через сервис-контейнер Laravel
+- [x] 3.1 Создать контракты и реализации репозиториев для overview, tasks, mentors, conversations и settings
+- [x] 3.2 Создать action-классы для основных use case по каждому экрану
+- [x] 3.3 Создать service layer для внешней интеграции аватаров через DiceBear
+- [x] 3.4 Подключить зависимости через сервис-контейнер Laravel
 
 ## 4. API Delivery
 

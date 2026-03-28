@@ -1,0 +1,77 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Contracts\Repositories\OverviewRepositoryInterface;
+use App\Models\Mentor;
+use App\Models\Task;
+use App\Models\User;
+use Illuminate\Support\Collection;
+
+class EloquentOverviewRepository implements OverviewRepositoryInterface
+{
+    public function getSummaryMetrics(User $user): array
+    {
+        $taskQuery = $user->tasks();
+
+        $totalTasks = (clone $taskQuery)->count();
+        $runningTasks = (clone $taskQuery)->where('status', 'in_progress')->count();
+        $completedTasks = (clone $taskQuery)->where('status', 'completed')->count();
+
+        return [
+            'running_tasks' => $runningTasks,
+            'completed_tasks' => $completedTasks,
+            'total_tasks' => $totalTasks,
+            'completion_rate' => $totalTasks > 0
+                ? (int) round(($completedTasks / $totalTasks) * 100)
+                : 0,
+        ];
+    }
+
+    public function getActivitySnapshot(User $user): array
+    {
+        return [
+            'labels' => ['New', 'In Progress', 'Completed'],
+            'series' => [
+                $user->tasks()->where('status', 'new')->count(),
+                $user->tasks()->where('status', 'in_progress')->count(),
+                $user->tasks()->where('status', 'completed')->count(),
+            ],
+        ];
+    }
+
+    public function getUpcomingTasks(User $user, int $limit = 5): Collection
+    {
+        return $user->tasks()
+            ->with(['category', 'mentor', 'members'])
+            ->whereIn('status', ['new', 'in_progress'])
+            ->orderBy('deadline_at')
+            ->limit($limit)
+            ->get();
+    }
+
+    public function getTaskToday(User $user): ?Task
+    {
+        return $user->tasks()
+            ->with(['category', 'mentor', 'members', 'steps'])
+            ->whereIn('status', ['new', 'in_progress'])
+            ->orderBy('deadline_at')
+            ->first();
+    }
+
+    public function getMonthlyMentors(User $user, int $limit = 5): Collection
+    {
+        $followedMentorIds = $user->followedMentors()->pluck('mentors.id');
+
+        return Mentor::query()
+            ->with('category')
+            ->orderByDesc('is_featured')
+            ->orderByDesc('rating')
+            ->orderByDesc('reviews_count')
+            ->limit($limit)
+            ->get()
+            ->each(function (Mentor $mentor) use ($followedMentorIds): void {
+                $mentor->setAttribute('is_followed', $followedMentorIds->contains($mentor->id));
+            });
+    }
+}
