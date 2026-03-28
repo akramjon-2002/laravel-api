@@ -10,6 +10,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
@@ -45,6 +46,20 @@ return Application::configure(basePath: dirname(__DIR__))
             return response()->json([
                 'message' => $exception->getMessage() ?: 'Malformed JSON payload.',
             ], 400);
+        });
+
+        $exceptions->render(function (MethodNotAllowedHttpException $exception, Request $request): ?JsonResponse {
+            if (! $request->is('api/*')) {
+                return null;
+            }
+
+            $allow = $exception->getHeaders()['Allow'] ?? null;
+
+            return response()->json([
+                'message' => $allow
+                    ? sprintf('Method not allowed. Supported methods: %s.', $allow)
+                    : 'Method not allowed.',
+            ], 405);
         });
 
         $exceptions->render(function (ModelNotFoundException $exception, Request $request): ?JsonResponse {
