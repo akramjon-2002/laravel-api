@@ -1,4 +1,4 @@
-# IELTS Zone Dashboard API
+# Dashboard API
 
 Backend API for the provided dashboard frontend test assignment, implemented with Laravel 11 and PostgreSQL.
 
@@ -158,7 +158,7 @@ curl -X POST http://127.0.0.1:8081/api/auth/login -H "Content-Type: application/
 
 Ready-to-import files are included in:
 
-- `postman/IELTS Zone Dashboard API.postman_collection.json`
+- `postman/Dashboard API.postman_collection.json`
 - `postman/Local.postman_environment.json`
 
 Default variables use seeded demo IDs:

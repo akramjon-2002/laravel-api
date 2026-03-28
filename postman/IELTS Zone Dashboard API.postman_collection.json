@@ -1,7 +1,7 @@
 {
   "info": {
     "_postman_id": "4e65c3bb-1986-4ac0-97c5-4aef79bf1df3",
-    "name": "IELTS Zone Dashboard API",
+    "name": "Dashboard API",
     "description": "Manual API checks for the Laravel 11 dashboard backend with Sanctum authentication.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
