@@ -1,0 +1,30 @@
+# tasks-api Specification
+
+## Purpose
+TBD - created by archiving change backend-api-for-dashboard. Update Purpose after archive.
+## Requirements
+### Requirement: Tasks API SHALL support listing with search, filtering, sorting and pagination
+Система SHALL предоставлять endpoint списка задач с поддержкой поиска, фильтрации по категории, сортировки по дедлайну и пагинации.
+
+#### Scenario: Список задач с фильтрами
+- **WHEN** клиент запрашивает список задач с параметрами поиска, фильтра или сортировки
+- **THEN** система возвращает только подходящие записи в предсказуемом порядке и с pagination metadata
+
+### Requirement: Tasks API SHALL expose task details
+Система SHALL предоставлять endpoint деталей задачи с основной информацией, прогрессом, дедлайном и участниками.
+
+#### Scenario: Открытие деталей задачи
+- **WHEN** клиент запрашивает существующую задачу по идентификатору
+- **THEN** система возвращает полную карточку задачи
+
+#### Scenario: Несуществующая задача
+- **WHEN** клиент запрашивает несуществующую задачу
+- **THEN** система возвращает ответ not found
+
+### Requirement: Tasks API SHALL expose ordered task steps
+Система SHALL предоставлять список шагов задачи в стабильном порядке выполнения.
+
+#### Scenario: Получение шагов задачи
+- **WHEN** клиент запрашивает шаги существующей задачи
+- **THEN** система возвращает шаги, отсортированные по `sort_order`
+
