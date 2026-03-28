@@ -17,16 +17,7 @@ class CategoryFactory extends Factory
      */
     public function definition(): array
     {
-        $name = fake()->unique()->randomElement([
-            'UI/UX Design',
-            'Frontend Development',
-            'Backend Development',
-            'Product Design',
-            'Mobile Development',
-            'Research',
-            'Full Stack Development',
-            'Design Systems',
-        ]);
+        $name = Str::title(fake()->unique()->words(2, true));
 
         return [
             'name' => $name,

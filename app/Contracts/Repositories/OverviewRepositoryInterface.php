@@ -8,9 +8,7 @@ use Illuminate\Support\Collection;
 
 interface OverviewRepositoryInterface
 {
-    public function getSummaryMetrics(User $user): array;
-
-    public function getActivitySnapshot(User $user): array;
+    public function getStatusBreakdown(User $user): array;
 
     public function getUpcomingTasks(User $user, int $limit = 5): Collection;
 

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Str;
 use Laravel\Sanctum\PersonalAccessToken;
 
 it('logs in and returns a sanctum token', function (): void {
@@ -48,4 +49,28 @@ it('logs out the current sanctum token', function (): void {
         ->assertJsonPath('message', 'Logged out successfully.');
 
     expect(PersonalAccessToken::query()->count())->toBe(0);
+});
+
+it('rate limits repeated login attempts', function (): void {
+    $ip = '203.0.113.10';
+    $email = 'dennis@example.com';
+
+    foreach (range(1, 5) as $attempt) {
+        $this->withServerVariables(['REMOTE_ADDR' => $ip])
+            ->postJson('/api/auth/login', [
+                'email' => $email,
+                'password' => 'wrong-password',
+                'device_name' => 'throttle-check-'.$attempt,
+            ])
+            ->assertUnprocessable();
+    }
+
+    $this->withServerVariables(['REMOTE_ADDR' => $ip])
+        ->postJson('/api/auth/login', [
+            'email' => $email,
+            'password' => 'wrong-password',
+            'device_name' => 'throttle-check-final-'.Str::random(5),
+        ])
+        ->assertStatus(429)
+        ->assertJsonPath('message', 'Too many login attempts. Please try again later.');
 });

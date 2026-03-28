@@ -16,6 +16,9 @@ use App\Repositories\EloquentSettingsRepository;
 use App\Repositories\EloquentTaskRepository;
 use App\Repositories\EloquentUserRepository;
 use App\Services\DiceBearAvatarService;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -40,6 +43,16 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        RateLimiter::for('login', function (Request $request): Limit {
+            $identifier = strtolower((string) $request->input('email')).'|'.$request->ip();
+
+            return Limit::perMinute(5)
+                ->by($identifier)
+                ->response(function (Request $request, array $headers) {
+                    return response()->json([
+                        'message' => 'Too many login attempts. Please try again later.',
+                    ], 429, $headers);
+                });
+        });
     }
 }

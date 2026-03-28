@@ -11,33 +11,17 @@ use Illuminate\Support\Collection;
 
 class EloquentOverviewRepository implements OverviewRepositoryInterface
 {
-    public function getSummaryMetrics(User $user): array
+    public function getStatusBreakdown(User $user): array
     {
-        $taskQuery = $user->tasks();
-
-        $totalTasks = (clone $taskQuery)->count();
-        $runningTasks = (clone $taskQuery)->where('status', TaskStatus::InProgress->value)->count();
-        $completedTasks = (clone $taskQuery)->where('status', TaskStatus::Completed->value)->count();
+        $rawCounts = $user->tasks()
+            ->selectRaw('status, count(*) as aggregate')
+            ->groupBy('status')
+            ->pluck('aggregate', 'status');
 
         return [
-            'running_tasks' => $runningTasks,
-            'completed_tasks' => $completedTasks,
-            'total_tasks' => $totalTasks,
-            'completion_rate' => $totalTasks > 0
-                ? (int) round(($completedTasks / $totalTasks) * 100)
-                : 0,
-        ];
-    }
-
-    public function getActivitySnapshot(User $user): array
-    {
-        return [
-            'labels' => ['New', 'In Progress', 'Completed'],
-            'series' => [
-                $user->tasks()->where('status', TaskStatus::New->value)->count(),
-                $user->tasks()->where('status', TaskStatus::InProgress->value)->count(),
-                $user->tasks()->where('status', TaskStatus::Completed->value)->count(),
-            ],
+            TaskStatus::New->value => (int) ($rawCounts[TaskStatus::New->value] ?? 0),
+            TaskStatus::InProgress->value => (int) ($rawCounts[TaskStatus::InProgress->value] ?? 0),
+            TaskStatus::Completed->value => (int) ($rawCounts[TaskStatus::Completed->value] ?? 0),
         ];
     }
 

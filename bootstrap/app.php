@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -60,6 +61,16 @@ return Application::configure(basePath: dirname(__DIR__))
                     ? sprintf('Method not allowed. Supported methods: %s.', $allow)
                     : 'Method not allowed.',
             ], 405);
+        });
+
+        $exceptions->render(function (TooManyRequestsHttpException $exception, Request $request): ?JsonResponse {
+            if (! $request->is('api/*')) {
+                return null;
+            }
+
+            return response()->json([
+                'message' => $exception->getMessage() ?: 'Too many requests.',
+            ], 429, $exception->getHeaders());
         });
 
         $exceptions->render(function (ModelNotFoundException $exception, Request $request): ?JsonResponse {
