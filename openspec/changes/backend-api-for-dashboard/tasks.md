@@ -1,15 +1,15 @@
 ## 1. Setup and Environment
 
-- [ ] 1.1 Настроить `.env` и `.env.example` под PostgreSQL с рабочими локальными параметрами
-- [ ] 1.2 Проверить подключение Laravel к PostgreSQL и базовый запуск artisan-команд
-- [ ] 1.3 Подготовить тестовое окружение для Pest и выделить отдельную тестовую БД или тестовую схему
+- [x] 1.1 Настроить `.env` и `.env.example` под PostgreSQL с рабочими локальными параметрами
+- [x] 1.2 Проверить подключение Laravel к PostgreSQL и базовый запуск artisan-команд
+- [x] 1.3 Подготовить тестовое окружение для Pest и выделить отдельную тестовую БД или тестовую схему
 
 ## 2. Data Model
 
-- [ ] 2.1 Создать миграции для `categories`, `mentors`, `tasks`, `task_steps`, `task_user`
-- [ ] 2.2 Создать миграции для `mentor_followers`, `reviews`, `conversations`, `conversation_participants`, `messages`, `user_settings`
-- [ ] 2.3 Описать Eloquent-модели и связи между сущностями
-- [ ] 2.4 Подготовить сиды и фабрики с demo-данными под UI тестового задания
+- [x] 2.1 Создать миграции для `categories`, `mentors`, `tasks`, `task_steps`, `task_user`
+- [x] 2.2 Создать миграции для `mentor_followers`, `reviews`, `conversations`, `conversation_participants`, `messages`, `user_settings`
+- [x] 2.3 Описать Eloquent-модели и связи между сущностями
+- [x] 2.4 Подготовить сиды и фабрики с demo-данными под UI тестового задания
 
 ## 3. Architecture Foundation
 

@@ -26,6 +26,10 @@ class UserFactory extends Factory
         return [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
+            'avatar_url' => sprintf(
+                'https://api.dicebear.com/7.x/avataaars/svg?seed=%s',
+                urlencode(fake()->firstName())
+            ),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
