@@ -48,6 +48,16 @@ class EloquentMentorRepository implements MentorRepositoryInterface
             ->get();
     }
 
+    public function getMonthly(int $limit = 5): Collection
+    {
+        return $this->baseQuery()
+            ->orderByDesc('is_featured')
+            ->orderByDesc('average_rating')
+            ->orderByDesc('reviews_total')
+            ->limit($limit)
+            ->get();
+    }
+
     public function find(int $mentorId): ?Mentor
     {
         return $this->baseQuery()

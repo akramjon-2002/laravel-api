@@ -2,6 +2,7 @@
 
 namespace App\Actions\Overview;
 
+use App\Actions\Mentor\GetMonthlyMentorsAction;
 use App\Contracts\Repositories\OverviewRepositoryInterface;
 use App\Models\User;
 
@@ -9,6 +10,7 @@ class GetOverviewAction
 {
     public function __construct(
         private readonly OverviewRepositoryInterface $overviewRepository,
+        private readonly GetMonthlyMentorsAction $getMonthlyMentors,
     ) {
     }
 
@@ -38,7 +40,7 @@ class GetOverviewAction
             ],
             'upcoming_tasks' => $this->overviewRepository->getUpcomingTasks($user),
             'task_today' => $this->overviewRepository->getTaskToday($user),
-            'monthly_mentors' => $this->overviewRepository->getMonthlyMentors($user),
+            'monthly_mentors' => ($this->getMonthlyMentors)($user),
         ];
     }
 }

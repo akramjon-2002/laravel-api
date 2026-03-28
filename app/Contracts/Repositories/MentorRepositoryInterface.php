@@ -13,6 +13,8 @@ interface MentorRepositoryInterface
 
     public function getRecent(int $limit = 5): Collection;
 
+    public function getMonthly(int $limit = 5): Collection;
+
     public function find(int $mentorId): ?Mentor;
 
     public function getFollowedIds(User $user): Collection;

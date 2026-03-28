@@ -13,6 +13,4 @@ interface OverviewRepositoryInterface
     public function getUpcomingTasks(User $user, int $limit = 5): Collection;
 
     public function getTaskToday(User $user): ?Task;
-
-    public function getMonthlyMentors(User $user, int $limit = 5): Collection;
 }

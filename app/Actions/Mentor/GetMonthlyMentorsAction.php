@@ -6,7 +6,7 @@ use App\Contracts\Repositories\MentorRepositoryInterface;
 use App\Models\User;
 use Illuminate\Support\Collection;
 
-class GetRecentMentorsAction
+class GetMonthlyMentorsAction
 {
     public function __construct(
         private readonly MentorRepositoryInterface $mentorRepository,
@@ -14,12 +14,12 @@ class GetRecentMentorsAction
     ) {
     }
 
-    public function __invoke(?User $user = null, int $limit = 5): Collection
+    public function __invoke(User $user, int $limit = 5): Collection
     {
-        $followedIds = $user ? $this->mentorRepository->getFollowedIds($user) : collect();
+        $followedIds = $this->mentorRepository->getFollowedIds($user);
 
         return $this->hydrateMentorSummary->collection(
-            $this->mentorRepository->getRecent($limit),
+            $this->mentorRepository->getMonthly($limit),
             $followedIds,
         );
     }
