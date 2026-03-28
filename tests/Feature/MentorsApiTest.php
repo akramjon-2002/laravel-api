@@ -42,3 +42,9 @@ it('can follow and unfollow a mentor', function (): void {
         ->assertOk()
         ->assertJsonPath('data.is_followed', false);
 });
+
+it('returns validation errors for invalid mentor filters', function (): void {
+    $this->getJson('/api/mentors?sort=wrong&category_id=999999')
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['sort', 'category_id']);
+});

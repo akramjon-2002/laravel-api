@@ -42,3 +42,9 @@ it('returns task steps', function (): void {
         ->assertJsonCount(3, 'data')
         ->assertJsonPath('data.0.sort_order', 1);
 });
+
+it('returns validation errors for invalid task filters', function (): void {
+    $this->getJson('/api/tasks?sort=wrong&per_page=999')
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['sort', 'per_page']);
+});

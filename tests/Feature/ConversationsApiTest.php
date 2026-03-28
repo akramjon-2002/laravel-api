@@ -35,3 +35,13 @@ it('sends a new message to a conversation', function (): void {
         ->assertCreated()
         ->assertJsonPath('data.body', 'This is a test message from Pest.');
 });
+
+it('returns validation errors for invalid message payload', function (): void {
+    $conversation = Conversation::query()->firstOrFail();
+
+    $this->postJson('/api/conversations/'.$conversation->id.'/messages', [
+        'body' => '',
+    ])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['body']);
+});

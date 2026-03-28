@@ -18,3 +18,13 @@ it('updates settings', function (): void {
         ->assertJsonPath('data.time_format', '12h')
         ->assertJsonPath('data.notifications_enabled', false);
 });
+
+it('returns validation errors for invalid settings payload', function (): void {
+    $this->putJson('/api/settings', [
+        'timezone' => 'bad-timezone',
+        'time_format' => 'bad-format',
+        'notifications_enabled' => 'not-a-boolean',
+    ])
+        ->assertUnprocessable()
+        ->assertJsonValidationErrors(['timezone', 'time_format', 'notifications_enabled']);
+});
