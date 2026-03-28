@@ -3,6 +3,10 @@
 use App\Models\Category;
 use App\Models\Task;
 
+beforeEach(function (): void {
+    authenticateUser();
+});
+
 it('lists tasks with pagination metadata', function (): void {
     $this->getJson('/api/tasks')
         ->assertOk()

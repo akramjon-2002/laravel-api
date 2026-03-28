@@ -7,9 +7,17 @@ it('returns a JSON not found error for unknown api routes', function (): void {
 });
 
 it('returns a compact JSON method not allowed error for api routes', function (): void {
+    authenticateUser();
+
     $this->postJson('/api/overview')
         ->assertStatus(405)
         ->assertJsonPath('message', 'Method not allowed. Supported methods: GET, HEAD.')
         ->assertJsonMissingPath('exception')
         ->assertJsonMissingPath('trace');
+});
+
+it('returns unauthorized for protected routes without a token', function (): void {
+    $this->getJson('/api/overview')
+        ->assertUnauthorized()
+        ->assertJsonPath('message', 'Unauthenticated.');
 });

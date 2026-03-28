@@ -2,6 +2,10 @@
 
 use App\Models\Conversation;
 
+beforeEach(function (): void {
+    authenticateUser();
+});
+
 it('lists conversations and their last message summary', function (): void {
     $this->getJson('/api/conversations')
         ->assertOk()

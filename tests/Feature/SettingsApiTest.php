@@ -1,5 +1,9 @@
 <?php
 
+beforeEach(function (): void {
+    authenticateUser();
+});
+
 it('returns current settings', function (): void {
     $this->getJson('/api/settings')
         ->assertOk()

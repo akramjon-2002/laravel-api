@@ -2,13 +2,39 @@
   "info": {
     "_postman_id": "4e65c3bb-1986-4ac0-97c5-4aef79bf1df3",
     "name": "IELTS Zone Dashboard API",
-    "description": "Manual API checks for the Laravel 11 dashboard backend.",
+    "description": "Manual API checks for the Laravel 11 dashboard backend with Sanctum authentication.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{token}}",
+        "type": "string"
+      }
+    ]
   },
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://127.0.0.1:8000"
+      "value": "http://127.0.0.1:8081"
+    },
+    {
+      "key": "email",
+      "value": "dennis@example.com"
+    },
+    {
+      "key": "password",
+      "value": "password"
+    },
+    {
+      "key": "deviceName",
+      "value": "postman"
+    },
+    {
+      "key": "token",
+      "value": ""
     },
     {
       "key": "taskId",
@@ -29,13 +55,139 @@
   ],
   "item": [
     {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const json = pm.response.json();",
+                  "    pm.environment.set('token', json.data.token);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\",\n  \"device_name\": \"{{deviceName}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            },
+            "description": "Authenticates the seeded demo user and stores the returned Sanctum token in the active Postman environment."
+          },
+          "response": []
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    pm.environment.unset('token');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
       "name": "Overview",
       "item": [
         {
           "name": "Get Overview",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/overview",
               "host": [
@@ -46,7 +198,7 @@
                 "overview"
               ]
             },
-            "description": "Aggregated dashboard payload for the demo user."
+            "description": "Aggregated dashboard payload for the authenticated user."
           },
           "response": []
         }
@@ -59,7 +211,12 @@
           "name": "List Tasks",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/tasks?search=API&category_id={{categoryId}}&sort=deadline&per_page=10",
               "host": [
@@ -95,7 +252,12 @@
           "name": "Get Task Details",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/tasks/{{taskId}}",
               "host": [
@@ -114,7 +276,12 @@
           "name": "Get Task Steps",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/tasks/{{taskId}}/steps",
               "host": [
@@ -139,7 +306,12 @@
           "name": "List Mentors",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/mentors?search=Sarah&category_id={{categoryId}}&sort=rating&per_page=10",
               "host": [
@@ -175,7 +347,12 @@
           "name": "Get Recent Mentors",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/mentors/recent",
               "host": [
@@ -194,7 +371,12 @@
           "name": "Get Mentor Details",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/mentors/{{mentorId}}",
               "host": [
@@ -213,7 +395,12 @@
           "name": "Follow Mentor",
           "request": {
             "method": "POST",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/mentors/{{mentorId}}/follow",
               "host": [
@@ -226,7 +413,7 @@
                 "follow"
               ]
             },
-            "description": "Marks the mentor as followed for the demo user."
+            "description": "Marks the mentor as followed for the authenticated user."
           },
           "response": []
         },
@@ -234,7 +421,12 @@
           "name": "Unfollow Mentor",
           "request": {
             "method": "DELETE",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/mentors/{{mentorId}}/follow",
               "host": [
@@ -259,7 +451,12 @@
           "name": "List Conversations",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/conversations?search=Sarah&per_page=10",
               "host": [
@@ -287,7 +484,12 @@
           "name": "Get Conversation Messages",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/conversations/{{conversationId}}/messages",
               "host": [
@@ -308,6 +510,10 @@
           "request": {
             "method": "POST",
             "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
               {
                 "key": "Content-Type",
                 "value": "application/json"
@@ -346,7 +552,12 @@
           "name": "Get Settings",
           "request": {
             "method": "GET",
-            "header": [],
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
             "url": {
               "raw": "{{baseUrl}}/api/settings",
               "host": [
@@ -365,6 +576,10 @@
           "request": {
             "method": "PUT",
             "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
               {
                 "key": "Content-Type",
                 "value": "application/json"

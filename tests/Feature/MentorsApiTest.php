@@ -2,6 +2,10 @@
 
 use App\Models\Mentor;
 
+beforeEach(function (): void {
+    authenticateUser();
+});
+
 it('lists mentors and recent mentors', function (): void {
     $this->getJson('/api/mentors')
         ->assertOk()

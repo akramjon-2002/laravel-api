@@ -38,6 +38,9 @@ The API covers the main flows of the provided UI:
 
 Implemented endpoints include:
 
+- `POST /api/auth/login`
+- `GET /api/auth/me`
+- `POST /api/auth/logout`
 - `GET /api/overview`
 - `GET /api/tasks`
 - `GET /api/tasks/{task}`
@@ -72,6 +75,11 @@ Main tables:
 
 The project ships with demo seed data so the API can be exercised immediately after migrations.
 
+Seeded authentication credentials:
+
+- `email`: `dennis@example.com`
+- `password`: `password`
+
 ## External Service Example
 
 To satisfy the service layer requirement, avatar resolution is isolated behind:
@@ -85,8 +93,9 @@ This keeps external URL generation out of controllers, actions, and repositories
 
 Test coverage includes:
 
-- feature tests for overview, tasks, mentors, conversations, and settings
+- feature tests for auth, overview, tasks, mentors, conversations, and settings
 - flow tests for follow / unfollow and send message
+- auth flow tests for login, me, logout, and protected route access
 - architecture tests for controller / action / repository / service boundaries
 - service isolation tests for the avatar integration
 
@@ -126,7 +135,7 @@ php artisan migrate:fresh --seed
 4. Start the application:
 
 ```bash
-php artisan serve
+php artisan serve --host=127.0.0.1 --port=8081
 ```
 
 ## Demo Commands
@@ -142,11 +151,7 @@ php artisan test
 Quick endpoint checks:
 
 ```bash
-curl http://127.0.0.1:8000/api/overview
-curl http://127.0.0.1:8000/api/tasks
-curl http://127.0.0.1:8000/api/mentors
-curl http://127.0.0.1:8000/api/conversations
-curl http://127.0.0.1:8000/api/settings
+curl -X POST http://127.0.0.1:8081/api/auth/login -H "Content-Type: application/json" -d "{\"email\":\"dennis@example.com\",\"password\":\"password\",\"device_name\":\"cli\"}"
 ```
 
 ## Postman
@@ -158,23 +163,28 @@ Ready-to-import files are included in:
 
 Default variables use seeded demo IDs:
 
+- `baseUrl=http://127.0.0.1:8081`
+- `email=dennis@example.com`
+- `password=password`
 - `taskId=1`
 - `mentorId=1`
 - `conversationId=1`
 - `categoryId=1`
 
+Use the `Auth -> Login` request first. It stores the returned Sanctum token into the active Postman environment automatically.
+
 ## OpenSpec Workflow
 
 The implementation is tracked through OpenSpec in:
 
-- `openspec/changes/backend-api-for-dashboard/`
+- `openspec/changes/review-hardening-api/`
 
 Validation command:
 
 ```bash
-openspec validate backend-api-for-dashboard
+openspec validate review-hardening-api
 ```
 
 ## Reviewer Notes
 
-This submission focuses on the main dashboard API flows and the required architectural patterns. Messaging is intentionally limited to inbox-oriented flows needed by the provided UI, and authentication is kept lightweight through a demo-user context so the scope stays aligned with the backend API objective of the assignment.
+This submission focuses on the main dashboard API flows and the required architectural patterns. Messaging is intentionally limited to inbox-oriented flows needed by the provided UI, while authentication uses Laravel Sanctum to protect the dashboard endpoints without expanding the project into a full auth product.

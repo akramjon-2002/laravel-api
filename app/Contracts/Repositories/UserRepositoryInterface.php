@@ -6,5 +6,5 @@ use App\Models\User;
 
 interface UserRepositoryInterface
 {
-    public function resolveDemoUser(): User;
+    public function findByEmail(string $email): ?User;
 }

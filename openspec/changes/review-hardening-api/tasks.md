@@ -1,14 +1,14 @@
 ## 1. OpenSpec and Scope
 
-- [ ] 1.1 Архивировать предыдущий completed change и обновить main specs
-- [ ] 1.2 Создать новый change под review hardening и зафиксировать scope исправлений
+- [x] 1.1 Архивировать предыдущий completed change и обновить main specs
+- [x] 1.2 Создать новый change под review hardening и зафиксировать scope исправлений
 
 ## 2. Authentication Hardening
 
-- [ ] 2.1 Установить и настроить Laravel Sanctum
-- [ ] 2.2 Добавить auth endpoints (`login`, `logout`, `me`)
-- [ ] 2.3 Перевести dashboard API routes под `auth:sanctum`
-- [ ] 2.4 Удалить demo-user fallback из runtime API flow
+- [x] 2.1 Установить и настроить Laravel Sanctum
+- [x] 2.2 Добавить auth endpoints (`login`, `logout`, `me`)
+- [x] 2.3 Перевести dashboard API routes под `auth:sanctum`
+- [x] 2.4 Удалить demo-user fallback из runtime API flow
 
 ## 3. API Contract Cleanup
 
@@ -38,8 +38,8 @@
 
 ## 7. Testing and Verification
 
-- [ ] 7.1 Добавить feature tests для auth login/logout/me и protected routes
+- [x] 7.1 Добавить feature tests для auth login/logout/me и protected routes
 - [ ] 7.2 Перевести критичные feature tests с seed-зависимости на локальные factories/fixtures
 - [ ] 7.3 Добавить regression tests под замечания review
-- [ ] 7.4 Прогнать полный test suite и ручную матрицу edge cases
-- [ ] 7.5 Провалидировать новый OpenSpec change
+- [x] 7.4 Прогнать полный test suite и ручную матрицу edge cases
+- [x] 7.5 Провалидировать новый OpenSpec change

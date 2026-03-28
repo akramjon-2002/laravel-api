@@ -1,5 +1,9 @@
 <?php
 
+beforeEach(function (): void {
+    authenticateUser();
+});
+
 it('returns the overview payload for the dashboard', function (): void {
     $this->getJson('/api/overview')
         ->assertOk()
