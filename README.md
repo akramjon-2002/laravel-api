@@ -149,6 +149,20 @@ curl http://127.0.0.1:8000/api/conversations
 curl http://127.0.0.1:8000/api/settings
 ```
 
+## Postman
+
+Ready-to-import files are included in:
+
+- `postman/IELTS Zone Dashboard API.postman_collection.json`
+- `postman/Local.postman_environment.json`
+
+Default variables use seeded demo IDs:
+
+- `taskId=1`
+- `mentorId=1`
+- `conversationId=1`
+- `categoryId=1`
+
 ## OpenSpec Workflow
 
 The implementation is tracked through OpenSpec in:
