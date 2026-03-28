@@ -28,3 +28,27 @@ it('returns validation errors for invalid settings payload', function (): void {
         ->assertUnprocessable()
         ->assertJsonValidationErrors(['timezone', 'time_format', 'notifications_enabled']);
 });
+
+it('returns a bad request error for malformed settings json', function (): void {
+    $this->call(
+        'PUT',
+        '/api/settings',
+        [],
+        [],
+        [],
+        [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_ACCEPT' => 'application/json',
+        ],
+        <<<'JSON'
+{
+  "language": "en",
+  "timezone": "Asia/Tashkent",
+  "time_format": "24h",
+  "notifications_enabled":
+}
+JSON
+    )
+        ->assertBadRequest()
+        ->assertJsonPath('message', 'Malformed JSON payload.');
+});

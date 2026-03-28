@@ -59,3 +59,24 @@ it('returns a JSON not found error when sending to a missing conversation', func
         ->assertNotFound()
         ->assertJsonPath('message', 'Conversation not found.');
 });
+
+it('returns a bad request error for malformed conversation json', function (): void {
+    $this->call(
+        'POST',
+        '/api/conversations/1/messages',
+        [],
+        [],
+        [],
+        [
+            'CONTENT_TYPE' => 'application/json',
+            'HTTP_ACCEPT' => 'application/json',
+        ],
+        <<<'JSON'
+{
+  "body":
+}
+JSON
+    )
+        ->assertBadRequest()
+        ->assertJsonPath('message', 'Malformed JSON payload.');
+});
