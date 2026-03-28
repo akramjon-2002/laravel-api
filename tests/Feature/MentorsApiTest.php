@@ -48,3 +48,9 @@ it('returns validation errors for invalid mentor filters', function (): void {
         ->assertUnprocessable()
         ->assertJsonValidationErrors(['sort', 'category_id']);
 });
+
+it('returns a JSON not found error for a missing mentor', function (): void {
+    $this->postJson('/api/mentors/999999/follow')
+        ->assertNotFound()
+        ->assertJsonPath('message', 'Mentor not found.');
+});
